@@ -55,9 +55,8 @@ export const RoutineSchedulerModal: React.FC<RoutineSchedulerModalProps> = ({
   // Form Fields
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [time, setTime] = useState('10:00 AM');
   const [dueDate, setDueDate] = useState<string>(new Date().toISOString().split('T')[0]);
-  const [dueTime, setDueTime] = useState('10:00 AM');
+  const [dueTime, setDueTime] = useState('');
   const [priority, setPriority] = useState<'low' | 'medium' | 'high' | 'urgent'>('medium');
   const [category, setCategory] = useState<'medicine' | 'exercise' | 'calm' | 'meal' | 'activity'>('medicine');
   const [dosage, setDosage] = useState('');
@@ -106,6 +105,11 @@ export const RoutineSchedulerModal: React.FC<RoutineSchedulerModalProps> = ({
       return;
     }
 
+    if (!dueTime.trim()) {
+      setFeedback({ type: 'error', message: 'Please enter a due time.' });
+      return;
+    }
+
     if (!selectedPatientId || !targetPatient) {
       setFeedback({ type: 'error', message: 'Please select a valid connected patient.' });
       return;
@@ -130,9 +134,9 @@ export const RoutineSchedulerModal: React.FC<RoutineSchedulerModalProps> = ({
         assignedByName: caregiverName || 'Caregiver',
         title: title.trim(),
         description: description.trim() || undefined,
-        time: time || dueTime || '10:00 AM',
+        time: dueTime || '10:00 AM',
         dueDate: dueDate || new Date().toISOString().split('T')[0],
-        dueTime: dueTime || time || '10:00 AM',
+        dueTime: dueTime || '10:00 AM',
         priority: priority,
         category: category,
         dosage: dosage.trim() || undefined,
