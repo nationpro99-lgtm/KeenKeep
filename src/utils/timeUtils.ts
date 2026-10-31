@@ -21,13 +21,7 @@ export function parseTimeToMinutes(timeStr: string): number {
 
 export function sortTasksChronologically(tasks: TaskItem[]): TaskItem[] {
   return [...tasks].sort((a, b) => {
-    const dateA = a.dueDate || '';
-    const dateB = b.dueDate || '';
-    if (dateA && dateB && dateA !== dateB) {
-      return dateA.localeCompare(dateB);
-    }
-    const minsA = parseTimeToMinutes(a.time);
-    const minsB = parseTimeToMinutes(b.time);
-    return minsA - minsB;
+    // Both time fields now hold ISO timestamps. Sort directly.
+    return new Date(a.time).getTime() - new Date(b.time).getTime();
   });
 }

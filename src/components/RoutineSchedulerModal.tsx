@@ -134,9 +134,10 @@ export const RoutineSchedulerModal: React.FC<RoutineSchedulerModalProps> = ({
         assignedByName: caregiverName || 'Caregiver',
         title: title.trim(),
         description: description.trim() || undefined,
-        time: dueTime || '10:00 AM',
-        dueDate: dueDate || new Date().toISOString().split('T')[0],
-        dueTime: dueTime || '10:00 AM',
+        // Combine date and time into a single ISO timestamp
+        time: new Date(`${dueDate}T${dueTime}`).toISOString(),
+        dueDate: dueDate,
+        dueTime: dueTime,
         priority: priority,
         category: category,
         dosage: dosage.trim() || undefined,
