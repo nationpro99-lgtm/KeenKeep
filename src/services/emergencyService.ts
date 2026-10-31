@@ -115,9 +115,9 @@ export const emergencyService = {
       status: 'active',
       hasVoiceNote: false,
       location: locationStr,
-      latitude: lat ?? undefined,
-      longitude: lng ?? undefined,
-      accuracyMeters: accuracy ?? undefined
+      latitude: lat ?? 0,
+      longitude: lng ?? 0,
+      accuracyMeters: accuracy ?? 0
     };
 
     try {

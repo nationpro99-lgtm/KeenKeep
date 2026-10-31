@@ -8,7 +8,7 @@ export function getEnvConfig() {
     geminiApiKeySecondary: (process.env.GEMINI_API_KEY_SECONDARY || process.env.GEMINI_API_KEY_BACKUP || '').trim(),
     geminiModel: (process.env.GEMINI_MODEL || 'gemini-3.8-flash').trim(),
     openRouterApiKey: (process.env.OPENROUTER_API_KEY || '').trim(),
-    openRouterModel: (process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet').trim()
+    openRouterModel: (process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-haiku').trim()
   };
 }
 
