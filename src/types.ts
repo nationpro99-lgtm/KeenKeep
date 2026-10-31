@@ -232,6 +232,12 @@ export interface PatientProfile {
   caregiverPhone?: string;
   phone?: string;
   adaptiveNotes?: string;
+  voiceSettings?: {
+    enabled: boolean;
+    language: 'en' | 'kn' | 'hi';
+    speed: number;
+    volume: number;
+  };
 }
 
 export interface DayProgress {

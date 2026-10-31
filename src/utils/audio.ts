@@ -150,6 +150,14 @@ export class AdvancedSpeechPlayer {
     }
   }
 
+  setVolume(newVolume: number): void {
+    // Note: Web Speech API does not support volume control directly on SpeechSynthesisUtterance.
+    // As a workaround, we can use an AudioContext gain node if speech were routed through it, 
+    // but SpeechSynthesis is separate.
+    // For now, we note this limitation.
+    console.warn('Volume control is not natively supported by Web Speech API.');
+  }
+
   setLang(newLang: 'en' | 'kn' | 'hi'): void {
     this.lang = newLang;
     if (this.isPlaying) {

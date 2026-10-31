@@ -88,6 +88,54 @@ export const PatientDashboard: React.FC<PatientDashboardProps> = ({
   const [pendingRequests, setPendingRequests] = useState<CaregiverConnectionRequest[]>([]);
   const t = translations[language];
 
+  // Automatic Voice Announcement and Notification Logic
+  useEffect(() => {
+    if (!patient.voiceSettings?.enabled) return;
+
+    // Request notification permission on mount if not already granted
+    if ('Notification' in window && Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+
+    const notifiedState = new Map<string, { tenMin: boolean; due: boolean }>();
+
+    const interval = setInterval(() => {
+      const now = new Date();
+      
+      tasks.forEach(task => {
+        if (task.completed || task.status === 'completed') return;
+        
+        const taskTime = new Date(task.time);
+        const timeDiffMinutes = (taskTime.getTime() - now.getTime()) / (1000 * 60);
+
+        const state = notifiedState.get(task.id) || { tenMin: false, due: false };
+
+        // 1. Exact Time Announcement
+        if (timeDiffMinutes <= 0 && timeDiffMinutes > -1 && !state.due) {
+          if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification('Task Due Now', { body: `It is time for: ${task.title}` });
+          }
+          
+          const announcement = `Hello, it is time for: ${task.title}. ${task.description || ''}`;
+          speakText(announcement, patient.voiceSettings?.language || 'en');
+          
+          state.due = true;
+        } 
+        // 2. 10 Minute Warning
+        else if (timeDiffMinutes > 0 && timeDiffMinutes <= 10 && !state.tenMin) {
+          if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification('Upcoming Task', { body: `${task.title} is starting in 10 minutes.` });
+          }
+          state.tenMin = true;
+        }
+
+        notifiedState.set(task.id, state);
+      });
+    }, 30000); // Check every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [tasks, patient.voiceSettings]);
+
   // Real-time listener for pending caregiver connection requests (onSnapshot)
   useEffect(() => {
     const pUid = patient.uid || '';

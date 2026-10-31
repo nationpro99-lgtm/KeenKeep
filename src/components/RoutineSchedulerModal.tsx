@@ -375,11 +375,11 @@ export const RoutineSchedulerModal: React.FC<RoutineSchedulerModalProps> = ({
                 <div>
                   <label className="text-[11px] font-bold text-gray-700 block mb-1">Due Time</label>
                   <input
-                    type="text"
-                    placeholder="e.g. 10:00 AM"
+                    type="time"
                     value={dueTime}
                     onChange={(e) => setDueTime(e.target.value)}
                     className="w-full text-xs p-2.5 bg-white border border-gray-300 rounded-xl font-medium"
+                    required
                   />
                 </div>
 

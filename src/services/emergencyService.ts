@@ -128,9 +128,9 @@ export const emergencyService = {
       try {
         await updateDoc(doc(firestore, 'patients', params.patientId.toUpperCase()), {
           status: 'sos_alert',
-          currentLatitude: lat ?? null,
-          currentLongitude: lng ?? null,
-          locationAccuracy: accuracy ?? null,
+          currentLatitude: lat !== null ? lat : null,
+          currentLongitude: lng !== null ? lng : null,
+          locationAccuracy: accuracy !== null ? accuracy : null,
           updatedAt: nowIso
         });
       } catch (e) {
@@ -141,8 +141,8 @@ export const emergencyService = {
         try {
           await updateDoc(doc(firestore, 'users', params.patientUid), {
             status: 'sos_alert',
-            currentLatitude: lat ?? null,
-            currentLongitude: lng ?? null,
+            currentLatitude: lat !== null ? lat : null,
+            currentLongitude: lng !== null ? lng : null,
             updatedAt: nowIso
           });
         } catch (e) {
