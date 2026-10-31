@@ -34,6 +34,7 @@ import {
   arrayRemove,
   serverTimestamp
 } from 'firebase/firestore';
+import { getMessaging } from 'firebase/messaging';
 import firebaseConfig from '../../firebase-applet-config.json';
 import { Language, UserRole } from '../types';
 
@@ -43,6 +44,7 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 // CRITICAL: Initialize Firestore with specific database ID from config
 export const firestore = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
+export const messaging = getMessaging(app);
 
 // Configure Google Auth Provider with fresh account selection
 export const googleProvider = new GoogleAuthProvider();
